@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">COVID19-TEST</string>
+    <string name="confirm">Confirmé</string>
+    <string name="entete">Merci de nous communiquer votre numéro de téléphone afin de pouvoir être en contact avec vous</string>
+    <string name="suivant">Suivant</string>
+    <string name="title_activity_evaluation">EvaluationActivity</string>
+</resources>

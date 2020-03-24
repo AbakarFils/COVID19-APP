@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="m40">40dp</dimen>
+    <dimen name="m20">20dp</dimen>
+    <dimen name="m30">30dp</dimen>
+    <dimen name="m10">10dp</dimen>
+    <dimen name="m25">25dp</dimen>
+    <dimen name="m5">5dp</dimen>
+    <dimen name="m2">2dp</dimen>
+    <dimen name="m1">1dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>
