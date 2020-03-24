@@ -33,7 +33,14 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_choix, parent, false);
+        View view = null;
+
+        if (viewType == 1) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_choix, parent, false);
+        } else if (viewType == 2){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_choix_selected, parent, false);
+        }
+
         return new RecyclerViewHolder(view, context);
     }
 
@@ -52,14 +59,14 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
                 String nom = reponse.getNom();
                 holder.nom_response.setText(nom);
 
-                if (selected) {
+                /*if (selected) {
                     holder.block_reponse.setBackground(context.getResources().getDrawable(R.drawable.shape_round_selected));
 
                 } else {
 
                     holder.block_reponse.setBackground(context.getResources().getDrawable(R.drawable.ic_choice_unselected));
 
-                }
+                }*/
 
             }
         }
@@ -85,5 +92,20 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
             block_reponse = itemView.findViewById(R.id.block_reponse);
 
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        boolean isSelected =  reponsesPossibleArrayList.get(position).isSelected();
+
+        //  reponse selected
+        if(isSelected ){
+            return 1;
+        } else {
+            return 2;
+        }
+
+
     }
 }
