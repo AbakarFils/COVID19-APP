@@ -1,6 +1,5 @@
 package app.sante.covid19_test.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +19,13 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
 
     private Context context;
     private ArrayList<ReponsesPossible> reponsesPossibleArrayList;
-    private ReponsesPossibleItemClickListener reponsesPossibleItemClickListener;
+    private IReponsesPossibleItemClickListener IReponsesPossibleItemClickListener;
 
 
-    public ReponsesPossibleAdapter(ArrayList<ReponsesPossible> reponsesPossibles, Context context, ReponsesPossibleItemClickListener reponsesPossibleItemClickListener) {
+    public ReponsesPossibleAdapter(ArrayList<ReponsesPossible> reponsesPossibles, Context context, IReponsesPossibleItemClickListener IReponsesPossibleItemClickListener) {
         this.context = context;
         this.reponsesPossibleArrayList = reponsesPossibles;
-        this.reponsesPossibleItemClickListener = reponsesPossibleItemClickListener;
+        this.IReponsesPossibleItemClickListener = IReponsesPossibleItemClickListener;
 
     }
 
@@ -37,14 +36,13 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
 
         if (viewType == 1) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_choix, parent, false);
-        } else if (viewType == 2){
+        } else if (viewType == 2) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_choix_selected, parent, false);
         }
 
         return new RecyclerViewHolder(view, context);
     }
 
-    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, final int position) {
 
@@ -52,9 +50,6 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
             final ReponsesPossible reponse = reponsesPossibleArrayList.get(position);
 
             if (reponse != null) {
-
-                //final boolean isCorrect = reponse.isCorrect();
-                //boolean isChosed = reponse.isChosed();
                 boolean selected = reponse.isSelected();
                 String nom = reponse.getNom();
                 holder.nom_response.setText(nom);
@@ -72,7 +67,6 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
         }
 
     }
-
 
 
     @Override
@@ -97,13 +91,13 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
     @Override
     public int getItemViewType(int position) {
 
-        boolean isSelected =  reponsesPossibleArrayList.get(position).isSelected();
+        boolean isSelected = reponsesPossibleArrayList.get(position).isSelected();
 
         //  reponse selected
-        if(isSelected ){
-            return 1;
-        } else {
+        if (isSelected) {
             return 2;
+        } else {
+            return 1;
         }
 
 

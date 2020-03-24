@@ -108,7 +108,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/txtLogin"
+                            android:id="@+id/txtPhone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:autofillHints="exemple@exemple.com"
