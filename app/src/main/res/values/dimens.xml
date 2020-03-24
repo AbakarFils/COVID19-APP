@@ -9,4 +9,5 @@
     <dimen name="m2">2dp</dimen>
     <dimen name="m1">1dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="m70">70dp</dimen>
 </resources>
