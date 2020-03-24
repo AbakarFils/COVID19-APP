@@ -17,6 +17,7 @@ import app.sante.covid19_test.entity.ReponsesPossible;
 public class MainActivity extends AppCompatActivity implements IReponsesPossibleItemClickListener {
     private RecyclerView recyclerView;
     ArrayList<ReponsesPossible> reponsesPossibleArrayList;
+    private   ReponsesPossibleAdapter reponsesPossibleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +49,24 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
         //LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(MainActivity.this, resId3);
        // recyclerView.setLayoutAnimation(animation);
         if (reponses != null && !reponses.isEmpty() && reponses.size() > 0) {
-            ReponsesPossibleAdapter jobAdapter = new ReponsesPossibleAdapter(reponses, MainActivity.this, this);
+            reponsesPossibleAdapter = new ReponsesPossibleAdapter(reponses, MainActivity.this, this);
             recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.setAdapter(jobAdapter);
+            recyclerView.setAdapter(reponsesPossibleAdapter);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
             recyclerView.setLayoutManager(layoutManager);
-            jobAdapter.notifyDataSetChanged();
+            reponsesPossibleAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void onReponseItemClickListener(int position, ReponsesPossible reponsesPossible) {
+        for (ReponsesPossible myreponse:reponsesPossibleArrayList) {
+            if (reponsesPossible.getNom().equalsIgnoreCase(myreponse.getNom().toLowerCase())) {
+                myreponse.setSelected(!myreponse.isSelected());
+                myreponse.setChosed(!myreponse.isChosed());
+            }
+        }
+        reponsesPossibleAdapter.notifyDataSetChanged();
 
     }
 

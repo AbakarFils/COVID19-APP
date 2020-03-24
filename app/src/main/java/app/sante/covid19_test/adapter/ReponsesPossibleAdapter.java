@@ -53,7 +53,6 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
                 boolean selected = reponse.isSelected();
                 String nom = reponse.getNom();
                 holder.nom_response.setText(nom);
-
                 /*if (selected) {
                     holder.block_reponse.setBackground(context.getResources().getDrawable(R.drawable.shape_round_selected));
 
@@ -62,6 +61,19 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
                     holder.block_reponse.setBackground(context.getResources().getDrawable(R.drawable.ic_choice_unselected));
 
                 }*/
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IReponsesPossibleItemClickListener.onReponseItemClickListener(position,reponse);
+                    }
+                });
+                holder.block_reponse.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IReponsesPossibleItemClickListener.onReponseItemClickListener(position,reponse);
+                    }
+                });
 
             }
         }
