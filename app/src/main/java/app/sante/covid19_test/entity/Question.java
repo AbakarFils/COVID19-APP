@@ -13,12 +13,11 @@ public class Question implements Serializable {
     public Question() {
     }
 
-    public Question(String uid, String libelle, String audio, Integer type, List<Reponse> reponses) {
+    public Question(String uid, String libelle, String audio, Integer type) {
         this.uid = uid;
         this.libelle = libelle;
         this.audio = audio;
         this.type = type;
-        this.reponses = reponses;
     }
 
     public String getUid() {

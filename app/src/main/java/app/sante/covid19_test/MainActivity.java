@@ -113,9 +113,7 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
 
 
         // Q1
-        final Question question = new Question();
-        question.setLibelle("Avez-vous un d ces symptômes ?");
-        question.setUid("q1");
+        final Question question =  new Question("q3", " Avez-vous un d ces symptômes ?",  "", 1);
 
         Reponse r1 = new Reponse(1, 1, "r1", "Fièvre?", false, false);
         Reponse r2 = new Reponse(1, 1, "r2", "Toux continue?", false, false);
@@ -130,54 +128,91 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
         question.setReponses(reponseArrayList);
 
 
-        questionArrayList.add(question);
+
         // Q1
-        final Question question1 = new Question();
-        question1.setLibelle("Sexe ?");
-        question1.setUid("q2");
+        Question question1 = new Question("q3", "Sexe ?",  "", 1);
+            Reponse qr1 = new Reponse(1, 1, "r1", "Homme", false, false);
+            Reponse qr2 = new Reponse(1, 1, "r2", "Femme", false, false);
 
-        Reponse qr1 = new Reponse(1, 1, "r1", "Homme", false, false);
-        Reponse qr2 = new Reponse(1, 1, "r2", "Femme", false, false);
-
-        List<Reponse> reponseList1 = new ArrayList<>();
-        reponseList1.add(qr1);
-        reponseList1.add(qr2);
+            List<Reponse> reponseList1 = new ArrayList<>();
+            reponseList1.add(qr1);
+            reponseList1.add(qr2);
         question1.setReponses(reponseList1);
 
         //Q2
-        Question question2 = new Question();
-        question1.setLibelle("Age ?");
-        question1.setUid("q3");
-        Reponse q2r1 = new Reponse(1, 1, "r1", "25-29", false, false);
-        Reponse q2r2 = new Reponse(1, 1, "r2", "Plus que 30", false, false);
-        Reponse q2r3 = new Reponse(1, 1, "r3", "15-19", false, false);
-        Reponse q2r4 = new Reponse(1, 1, "r4", "20-24", false, false);
+        Question question2 = new Question("q3", "Age ?",  "", 1);
+            Reponse q2r1 = new Reponse(1, 1, "r1", "25-29", false, false);
+            Reponse q2r2 = new Reponse(1, 1, "r2", "Plus que 30", false, false);
+            Reponse q2r3 = new Reponse(1, 1, "r3", "15-19", false, false);
+            Reponse q2r4 = new Reponse(1, 1, "r4", "20-24", false, false);
 
-        List<Reponse> reponseList2 = new ArrayList<>();
-        reponseList2.add(q2r1);
-        reponseList2.add(q2r2);
-        reponseList2.add(q2r3);
-        reponseList2.add(q2r4);
+            List<Reponse> reponseList2 = new ArrayList<>();
+            reponseList2.add(q2r1);
+            reponseList2.add(q2r2);
+            reponseList2.add(q2r3);
+            reponseList2.add(q2r4);
         question2.setReponses(reponseList2);
 
 
         //Q3
-        Question question3 = new Question();
-        question1.setLibelle("Avez-vous un d ces symptômes?");
-        question1.setUid("q4");
-        Reponse q3r1 = new Reponse(1, 1, "r1", "Dyspné (noyade)", false, false);
-        Reponse q3r2 = new Reponse(1, 1, "r2", "Hémoptysie (crasher du sang)", false, false);
-        Reponse q3r3 = new Reponse(1, 1, "r3", "Douleur sur le côté", false, false);
+        Question question3 = new  Question("q3", "Avez-vous un d ces symptômes?",  "", 1);
+            Reponse q3r1 = new Reponse(1, 1, "r1", "Dyspné (noyade)", false, false);
+            Reponse q3r2 = new Reponse(1, 1, "r2", "Hémoptysie (crasher du sang)", false, false);
+            Reponse q3r3 = new Reponse(1, 1, "r3", "Douleur sur le côté", false, false);
 
-        List<Reponse> reponseList3 = new ArrayList<>();
+            List<Reponse> reponseList3 = new ArrayList<>();
 
-        reponseList3.add(q3r1);
-        reponseList3.add(q3r2);
-        reponseList3.add(q3r3);
+            reponseList3.add(q3r1);
+            reponseList3.add(q3r2);
+            reponseList3.add(q3r3);
+        question3.setReponses(reponseList3);
 
+
+        // Q 4
+        Question question4 = new  Question("q3", "Rencontrez-vous l’une de ces situations?",  "", 1);
+            Reponse q4r1 = new Reponse(1, 1, "r1", "Sous traitement avec de medicaments qui produisent une immunosuppression", false, false);
+            Reponse q4r2 = new Reponse(1, 1, "r2", "Grossesse", false, false);
+            Reponse q4r3 = new Reponse(1, 1, "r3", "Post-partum (< 6semaines)", false, false);
+            Reponse q4r4 = new Reponse(1, 1, "r3", "Mère allaitantes", false, false);
+
+            List<Reponse> reponseList4 = new ArrayList<>();
+
+            reponseList4.add(q4r1);
+            reponseList4.add(q4r2);
+            reponseList4.add(q4r3);
+            reponseList4.add(q4r4);
+        question4.setReponses(reponseList4);
+
+
+        Question question5 = new  Question("q3", "Votre température ?",  "", 1);
+            Reponse q5r1 = new Reponse(1, 1, "r1", "36.5° ou moins", false, false);
+            Reponse q5r2 = new Reponse(1, 1, "r2", "37.0°", false, false);
+            Reponse q5r3 = new Reponse(1, 1, "r3", "37.5°", false, false);
+            Reponse q5r4 = new Reponse(1, 1, "r3", "38.0°", false, false);
+            Reponse q5r5 = new Reponse(1, 1, "r3", "38.5° ou plus", false, false);
+
+            List<Reponse> reponseList5 = new ArrayList<>();
+
+            reponseList5.add(q5r1);
+            reponseList5.add(q5r2);
+            reponseList5.add(q5r3);
+            reponseList5.add(q5r4);
+            reponseList5.add(q5r5);
+        question5.setReponses(reponseList5);
+
+        Question question6 = new  Question("q3", "Inconfort général ",  "", 1);
+
+
+        Question question7 = new  Question("q3", "Difficulté respiratoire ",  "", 1);
+        Question question8 = new  Question("q3", "Votre état de santé actuel, vous permet-il de faire les activtés de base de la vie quotidienne ? ",  "", 1);
+
+
+        questionArrayList.add(question);
         questionArrayList.add(question1);
         questionArrayList.add(question2);
         questionArrayList.add(question3);
+        questionArrayList.add(question4);
+        questionArrayList.add(question5);
 
 
         updateList((ArrayList)questionArrayList.get(0).getReponses());
@@ -199,9 +234,9 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
             Collections.sort(reponses, new Comparator<Reponse>() {
                 @Override
                 public int compare(Reponse q1, Reponse q2) {
-                    int res = 1;
+                    int res = -1;
                     if (q1.getNom().compareToIgnoreCase(q2.getNom()) > 0) {
-                        res = -1;
+                        res = 1;
                     }
                     return res;
                 }
