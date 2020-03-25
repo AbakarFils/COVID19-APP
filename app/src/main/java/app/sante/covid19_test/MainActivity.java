@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.badoualy.stepperindicator.StepperIndicator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import app.sante.covid19_test.adapter.IReponsesPossibleItemClickListener;
@@ -30,13 +32,13 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
     private ImageView playbtn;
     private TextView txt_current_question, numero;
 
-    private static int currentProgression;
+    private static int currentProgression=1;
     private static int index = 0;
 
     private StepperIndicator stepperIndicatorQuestion;
 
     ArrayList<Reponse> reponseArrayList;
-    ArrayList<Question> questionArrayList;
+   final ArrayList<Question> questionArrayList = new ArrayList<>();
     private ReponsesPossibleAdapter reponsesPossibleAdapter;
 
 
@@ -49,27 +51,26 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bindViews();
+        populateResponse();
 
         btnSuivant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                index++;
-                if (index > questionArrayList.size()) {
+                if (currentProgression <= questionArrayList.size()) {
+                    Toast.makeText(MainActivity.this, "Valeur " + questionArrayList.get(currentProgression).getLibelle(), Toast.LENGTH_SHORT).show();
+                    txt_current_question.setText("");
+                    txt_current_question.setText(questionArrayList.get(currentProgression).getLibelle());
+                    updateList((ArrayList<Reponse>) questionArrayList.get(currentProgression).getReponses());
+                    numero.setText(" ");
+                    String num = " "+ currentProgression;
+                    numero.setText(num);
+                } else {
                     Intent intent = new Intent(MainActivity.this, EvaluationActivity.class);
                     startActivity(intent);
-
                 }
-                if (currentProgression >= 2) {
-                    Toast.makeText(MainActivity.this, "Job ajouté à votre favoris avec succès" + questionArrayList.get(index).getLibelle(), Toast.LENGTH_SHORT).show();
-                    txt_current_question.setText("");
-                    txt_current_question.setText(questionArrayList.get(index).getLibelle());
-                    updateList((ArrayList<Reponse>) questionArrayList.get(index).getReponses());
-                    numero.setText(" ");
-                    numero.setText("" + index + 1);
-                }
-
-                stepperIndicatorQuestion.setCurrentStep(index + 1);
                 currentProgression++;
+                stepperIndicatorQuestion.setCurrentStep(currentProgression);
+
 
             }
         });
@@ -82,11 +83,9 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
                 eTime = mPlayer.getDuration();
                 sTime = mPlayer.getCurrentPosition();
                 hdlr.postDelayed(UpdateSongTime, 100);
-                //pausebtn.setEnabled(true);
-                //playbtn.setEnabled(false);
             }
         });
-        populateResponse();
+
     }
 
     private Runnable UpdateSongTime = new Runnable() {
@@ -98,11 +97,8 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
     };
 
     public void bindViews() {
-        currentProgression = 2;
         playbtn = findViewById(R.id.playbtn);
-        mPlayer = MediaPlayer.create(this,R.raw.tes);
-
-
+        mPlayer = MediaPlayer.create(this, R.raw.tes);
         txt_current_question = findViewById(R.id.txt_current_question);
         numero = findViewById(R.id.numero);
         recyclerView = findViewById(R.id.recyclerview_reponses);
@@ -117,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
 
 
         // Q1
-        Question question = new Question();
+        final Question question = new Question();
         question.setLibelle("Avez-vous un d ces symptômes ?");
         question.setUid("q1");
 
@@ -134,12 +130,11 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
         question.setReponses(reponseArrayList);
 
 
-        questionArrayList = new ArrayList<>();
         questionArrayList.add(question);
         // Q1
-        Question question1 = new Question();
+        final Question question1 = new Question();
         question1.setLibelle("Sexe ?");
-        question1.setUid("q1");
+        question1.setUid("q2");
 
         Reponse qr1 = new Reponse(1, 1, "r1", "Homme", false, false);
         Reponse qr2 = new Reponse(1, 1, "r2", "Femme", false, false);
@@ -152,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
         //Q2
         Question question2 = new Question();
         question1.setLibelle("Age ?");
-        question1.setUid("q2");
+        question1.setUid("q3");
         Reponse q2r1 = new Reponse(1, 1, "r1", "25-29", false, false);
         Reponse q2r2 = new Reponse(1, 1, "r2", "Plus que 30", false, false);
         Reponse q2r3 = new Reponse(1, 1, "r3", "15-19", false, false);
@@ -169,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
         //Q3
         Question question3 = new Question();
         question1.setLibelle("Avez-vous un d ces symptômes?");
-        question1.setUid("q3");
+        question1.setUid("q4");
         Reponse q3r1 = new Reponse(1, 1, "r1", "Dyspné (noyade)", false, false);
         Reponse q3r2 = new Reponse(1, 1, "r2", "Hémoptysie (crasher du sang)", false, false);
         Reponse q3r3 = new Reponse(1, 1, "r3", "Douleur sur le côté", false, false);
@@ -185,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
         questionArrayList.add(question3);
 
 
-        updateList(reponseArrayList);
+        updateList((ArrayList)questionArrayList.get(0).getReponses());
 
     }
 
@@ -197,7 +192,20 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
             step = questionArrayList.size();
 
         stepperIndicatorQuestion.setStepCount(step);
+        String q = questionArrayList.get(currentProgression).getLibelle();
+
         if (reponses != null && !reponses.isEmpty() && reponses.size() > 0) {
+
+            Collections.sort(reponses, new Comparator<Reponse>() {
+                @Override
+                public int compare(Reponse q1, Reponse q2) {
+                    int res = 1;
+                    if (q1.getNom().compareToIgnoreCase(q2.getNom()) > 0) {
+                        res = -1;
+                    }
+                    return res;
+                }
+            });
             reponsesPossibleAdapter = new ReponsesPossibleAdapter(reponses, MainActivity.this, this);
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setAdapter(reponsesPossibleAdapter);
