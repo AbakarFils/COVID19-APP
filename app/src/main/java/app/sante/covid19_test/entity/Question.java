@@ -1,7 +1,6 @@
 package app.sante.covid19_test.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Question implements Serializable {
@@ -9,17 +8,17 @@ public class Question implements Serializable {
     private String libelle;
     private String audio;
     private Integer type;
-    private List<ReponsesPossible> reponsesPossibles;
+    private List<Reponse> reponses;
 
     public Question() {
     }
 
-    public Question(String uid, String libelle, String audio, Integer type, List<ReponsesPossible> reponsesPossibles) {
+    public Question(String uid, String libelle, String audio, Integer type, List<Reponse> reponses) {
         this.uid = uid;
         this.libelle = libelle;
         this.audio = audio;
         this.type = type;
-        this.reponsesPossibles = reponsesPossibles;
+        this.reponses = reponses;
     }
 
     public String getUid() {
@@ -38,12 +37,12 @@ public class Question implements Serializable {
         this.libelle = libelle;
     }
 
-    public List<ReponsesPossible> getReponsesPossibles() {
-        return reponsesPossibles;
+    public List<Reponse> getReponses() {
+        return reponses;
     }
 
-    public void setReponsesPossibles(List<ReponsesPossible> reponsesPossibles) {
-        this.reponsesPossibles = reponsesPossibles;
+    public void setReponses(List<Reponse> reponses) {
+        this.reponses = reponses;
     }
 
     public String getAudio() {

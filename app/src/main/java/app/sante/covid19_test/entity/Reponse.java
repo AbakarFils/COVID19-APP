@@ -2,7 +2,7 @@ package app.sante.covid19_test.entity;
 
 import java.io.Serializable;
 
-public class ReponsesPossible implements Serializable {
+public class Reponse implements Serializable {
 
     private int type;
     private int etat;
@@ -12,7 +12,7 @@ public class ReponsesPossible implements Serializable {
     private boolean selected;
 
 
-    public ReponsesPossible(int type, int etat, String uid, String nom, boolean chosed, boolean selected) {
+    public Reponse(int type, int etat, String uid, String nom, boolean chosed, boolean selected) {
         this.type = type;
         this.etat = etat;
         this.uid = uid;

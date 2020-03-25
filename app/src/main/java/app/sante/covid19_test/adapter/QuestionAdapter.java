@@ -9,15 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import app.sante.covid19_test.MainActivity;
 import app.sante.covid19_test.R;
 import app.sante.covid19_test.entity.Question;
-import app.sante.covid19_test.entity.ReponsesPossible;
+import app.sante.covid19_test.entity.Reponse;
 
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.RecyclerViewHolder> {
@@ -54,8 +52,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Recycl
                 holder.libelle.setText(question.getLibelle());
                 holder.numero.setText(question.getUid());
 
-                if (question.getReponsesPossibles() != null && !question.getReponsesPossibles().isEmpty() && question.getReponsesPossibles().size() > 0) {
-                    for (ReponsesPossible reponse : question.getReponsesPossibles()) {
+                if (question.getReponses() != null && !question.getReponses().isEmpty() && question.getReponses().size() > 0) {
+                    for (Reponse reponse : question.getReponses()) {
                         Button btnResponse = new Button(context);
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,

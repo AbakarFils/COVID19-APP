@@ -5,11 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +22,12 @@ import java.util.List;
 import app.sante.covid19_test.adapter.IReponsesPossibleItemClickListener;
 import app.sante.covid19_test.adapter.ReponsesPossibleAdapter;
 import app.sante.covid19_test.entity.Question;
-import app.sante.covid19_test.entity.ReponsesPossible;
+import app.sante.covid19_test.entity.Reponse;
 
 public class MainActivity extends AppCompatActivity implements IReponsesPossibleItemClickListener {
     private RecyclerView recyclerView;
     private Button btnSuivant;
+    private ImageView playbtn;
     private TextView txt_current_question, numero;
 
     private static int currentProgression;
@@ -33,9 +35,14 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
 
     private StepperIndicator stepperIndicatorQuestion;
 
-    ArrayList<ReponsesPossible> reponsesPossibleArrayList;
+    ArrayList<Reponse> reponseArrayList;
     ArrayList<Question> questionArrayList;
     private ReponsesPossibleAdapter reponsesPossibleAdapter;
+
+
+    private MediaPlayer mPlayer;
+    private static int oTime = 0, sTime = 0, eTime = 0, fTime = 5000, bTime = 5000;
+    private Handler hdlr = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +55,16 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
             public void onClick(View v) {
                 index++;
                 if (index > questionArrayList.size()) {
-                     Intent intent = new Intent(MainActivity.this, EvaluationActivity.class);
-                startActivity(intent);
+                    Intent intent = new Intent(MainActivity.this, EvaluationActivity.class);
+                    startActivity(intent);
 
                 }
                 if (currentProgression >= 2) {
-                    Toast.makeText(MainActivity.this, "Job ajouté à votre favoris avec succès"+ questionArrayList.get(index).getLibelle(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Job ajouté à votre favoris avec succès" + questionArrayList.get(index).getLibelle(), Toast.LENGTH_SHORT).show();
                     txt_current_question.setText("");
                     txt_current_question.setText(questionArrayList.get(index).getLibelle());
-                    updateList((ArrayList<ReponsesPossible>) questionArrayList.get(index).getReponsesPossibles());
-                    numero.setText(" " );
+                    updateList((ArrayList<Reponse>) questionArrayList.get(index).getReponses());
+                    numero.setText(" ");
                     numero.setText("" + index + 1);
                 }
 
@@ -66,11 +73,36 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
 
             }
         });
+
+        playbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Playing Audio", Toast.LENGTH_SHORT).show();
+                mPlayer.start();
+                eTime = mPlayer.getDuration();
+                sTime = mPlayer.getCurrentPosition();
+                hdlr.postDelayed(UpdateSongTime, 100);
+                //pausebtn.setEnabled(true);
+                //playbtn.setEnabled(false);
+            }
+        });
         populateResponse();
     }
 
+    private Runnable UpdateSongTime = new Runnable() {
+        @Override
+        public void run() {
+            sTime = mPlayer.getCurrentPosition();
+            hdlr.postDelayed(this, 100);
+        }
+    };
+
     public void bindViews() {
         currentProgression = 2;
+        playbtn = findViewById(R.id.playbtn);
+        mPlayer = MediaPlayer.create(this,R.raw.tes);
+
+
         txt_current_question = findViewById(R.id.txt_current_question);
         numero = findViewById(R.id.numero);
         recyclerView = findViewById(R.id.recyclerview_reponses);
@@ -89,17 +121,17 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
         question.setLibelle("Avez-vous un d ces symptômes ?");
         question.setUid("q1");
 
-        ReponsesPossible r1 = new ReponsesPossible(1, 1, "r1", "Fièvre?", false, false);
-        ReponsesPossible r2 = new ReponsesPossible(1, 1, "r2", "Toux continue?", false, false);
-        ReponsesPossible r3 = new ReponsesPossible(1, 1, "r3", "Difficulté respiratoire?", false, false);
-        ReponsesPossible r4 = new ReponsesPossible(1, 1, "r4", "Inconfort général?", false, false);
+        Reponse r1 = new Reponse(1, 1, "r1", "Fièvre?", false, false);
+        Reponse r2 = new Reponse(1, 1, "r2", "Toux continue?", false, false);
+        Reponse r3 = new Reponse(1, 1, "r3", "Difficulté respiratoire?", false, false);
+        Reponse r4 = new Reponse(1, 1, "r4", "Inconfort général?", false, false);
 
-        reponsesPossibleArrayList = new ArrayList<>();
-        reponsesPossibleArrayList.add(r1);
-        reponsesPossibleArrayList.add(r2);
-        reponsesPossibleArrayList.add(r3);
-        reponsesPossibleArrayList.add(r4);
-        question.setReponsesPossibles(reponsesPossibleArrayList);
+        reponseArrayList = new ArrayList<>();
+        reponseArrayList.add(r1);
+        reponseArrayList.add(r2);
+        reponseArrayList.add(r3);
+        reponseArrayList.add(r4);
+        question.setReponses(reponseArrayList);
 
 
         questionArrayList = new ArrayList<>();
@@ -109,55 +141,55 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
         question1.setLibelle("Sexe ?");
         question1.setUid("q1");
 
-        ReponsesPossible qr1 = new ReponsesPossible(1, 1, "r1", "Homme", false, false);
-        ReponsesPossible qr2 = new ReponsesPossible(1, 1, "r2", "Femme", false, false);
+        Reponse qr1 = new Reponse(1, 1, "r1", "Homme", false, false);
+        Reponse qr2 = new Reponse(1, 1, "r2", "Femme", false, false);
 
-        List<ReponsesPossible> reponsesPossibleList1 = new ArrayList<>();
-        reponsesPossibleList1.add(qr1);
-        reponsesPossibleList1.add(qr2);
-        question1.setReponsesPossibles(reponsesPossibleList1);
+        List<Reponse> reponseList1 = new ArrayList<>();
+        reponseList1.add(qr1);
+        reponseList1.add(qr2);
+        question1.setReponses(reponseList1);
 
         //Q2
         Question question2 = new Question();
         question1.setLibelle("Age ?");
         question1.setUid("q2");
-        ReponsesPossible q2r1 = new ReponsesPossible(1, 1, "r1", "25-29", false, false);
-        ReponsesPossible q2r2 = new ReponsesPossible(1, 1, "r2", "Plus que 30", false, false);
-        ReponsesPossible q2r3 = new ReponsesPossible(1, 1, "r3", "15-19", false, false);
-        ReponsesPossible q2r4 = new ReponsesPossible(1, 1, "r4", "20-24", false, false);
+        Reponse q2r1 = new Reponse(1, 1, "r1", "25-29", false, false);
+        Reponse q2r2 = new Reponse(1, 1, "r2", "Plus que 30", false, false);
+        Reponse q2r3 = new Reponse(1, 1, "r3", "15-19", false, false);
+        Reponse q2r4 = new Reponse(1, 1, "r4", "20-24", false, false);
 
-        List<ReponsesPossible> reponsesPossibleList2 = new ArrayList<>();
-        reponsesPossibleList2.add(q2r1);
-        reponsesPossibleList2.add(q2r2);
-        reponsesPossibleList2.add(q2r3);
-        reponsesPossibleList2.add(q2r4);
-        question2.setReponsesPossibles(reponsesPossibleList2);
+        List<Reponse> reponseList2 = new ArrayList<>();
+        reponseList2.add(q2r1);
+        reponseList2.add(q2r2);
+        reponseList2.add(q2r3);
+        reponseList2.add(q2r4);
+        question2.setReponses(reponseList2);
 
 
         //Q3
         Question question3 = new Question();
         question1.setLibelle("Avez-vous un d ces symptômes?");
         question1.setUid("q3");
-        ReponsesPossible q3r1 = new ReponsesPossible(1, 1, "r1", "Dyspné (noyade)", false, false);
-        ReponsesPossible q3r2 = new ReponsesPossible(1, 1, "r2", "Hémoptysie (crasher du sang)", false, false);
-        ReponsesPossible q3r3 = new ReponsesPossible(1, 1, "r3", "Douleur sur le côté", false, false);
+        Reponse q3r1 = new Reponse(1, 1, "r1", "Dyspné (noyade)", false, false);
+        Reponse q3r2 = new Reponse(1, 1, "r2", "Hémoptysie (crasher du sang)", false, false);
+        Reponse q3r3 = new Reponse(1, 1, "r3", "Douleur sur le côté", false, false);
 
-        List<ReponsesPossible> reponsesPossibleList3 = new ArrayList<>();
+        List<Reponse> reponseList3 = new ArrayList<>();
 
-        reponsesPossibleList3.add(q3r1);
-        reponsesPossibleList3.add(q3r2);
-        reponsesPossibleList3.add(q3r3);
+        reponseList3.add(q3r1);
+        reponseList3.add(q3r2);
+        reponseList3.add(q3r3);
 
         questionArrayList.add(question1);
         questionArrayList.add(question2);
         questionArrayList.add(question3);
 
 
-        updateList(reponsesPossibleArrayList);
+        updateList(reponseArrayList);
 
     }
 
-    private void updateList(ArrayList<ReponsesPossible> reponses) {
+    private void updateList(ArrayList<Reponse> reponses) {
         int step;
         if (questionArrayList.size() == 1)
             step = 2;
@@ -176,11 +208,11 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
     }
 
     @Override
-    public void onReponseItemClickListener(int position, ReponsesPossible reponsesPossible) {
+    public void onReponseItemClickListener(int position, Reponse reponse) {
         for (Question question : questionArrayList) {
-            if (question.getReponsesPossibles() != null) {
-                for (ReponsesPossible myreponse : question.getReponsesPossibles()) {
-                    if (reponsesPossible.getNom().equalsIgnoreCase(myreponse.getNom().toLowerCase())) {
+            if (question.getReponses() != null) {
+                for (Reponse myreponse : question.getReponses()) {
+                    if (reponse.getNom().equalsIgnoreCase(myreponse.getNom().toLowerCase())) {
                         myreponse.setSelected(!myreponse.isSelected());
                         myreponse.setChosed(!myreponse.isChosed());
                     }
@@ -192,9 +224,9 @@ public class MainActivity extends AppCompatActivity implements IReponsesPossible
     }
 
     @Override
-    public void onBtnSuivantClickListener(int position, ReponsesPossible reponsesPossible) {
-        for (ReponsesPossible myreponse : reponsesPossibleArrayList) {
-            if (reponsesPossible.getNom().equalsIgnoreCase(myreponse.getNom().toLowerCase())) {
+    public void onBtnSuivantClickListener(int position, Reponse reponse) {
+        for (Reponse myreponse : reponseArrayList) {
+            if (reponse.getNom().equalsIgnoreCase(myreponse.getNom().toLowerCase())) {
                 myreponse.setSelected(!myreponse.isSelected());
                 myreponse.setChosed(!myreponse.isChosed());
             }

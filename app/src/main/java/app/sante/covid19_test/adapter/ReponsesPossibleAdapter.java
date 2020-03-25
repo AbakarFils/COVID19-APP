@@ -12,19 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import app.sante.covid19_test.R;
-import app.sante.covid19_test.entity.ReponsesPossible;
+import app.sante.covid19_test.entity.Reponse;
 
 
 public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossibleAdapter.RecyclerViewHolder> {
 
     private Context context;
-    private ArrayList<ReponsesPossible> reponsesPossibleArrayList;
+    private ArrayList<Reponse> reponseArrayList;
     private IReponsesPossibleItemClickListener IReponsesPossibleItemClickListener;
 
 
-    public ReponsesPossibleAdapter(ArrayList<ReponsesPossible> reponsesPossibles, Context context, IReponsesPossibleItemClickListener IReponsesPossibleItemClickListener) {
+    public ReponsesPossibleAdapter(ArrayList<Reponse> reponses, Context context, IReponsesPossibleItemClickListener IReponsesPossibleItemClickListener) {
         this.context = context;
-        this.reponsesPossibleArrayList = reponsesPossibles;
+        this.reponseArrayList = reponses;
         this.IReponsesPossibleItemClickListener = IReponsesPossibleItemClickListener;
 
     }
@@ -46,8 +46,8 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, final int position) {
 
-        if (!reponsesPossibleArrayList.isEmpty()) {
-            final ReponsesPossible reponse = reponsesPossibleArrayList.get(position);
+        if (!reponseArrayList.isEmpty()) {
+            final Reponse reponse = reponseArrayList.get(position);
 
             if (reponse != null) {
                 boolean selected = reponse.isSelected();
@@ -83,7 +83,7 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
 
     @Override
     public int getItemCount() {
-        return reponsesPossibleArrayList.size();
+        return reponseArrayList.size();
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -103,7 +103,7 @@ public class ReponsesPossibleAdapter extends RecyclerView.Adapter<ReponsesPossib
     @Override
     public int getItemViewType(int position) {
 
-        boolean isSelected = reponsesPossibleArrayList.get(position).isSelected();
+        boolean isSelected = reponseArrayList.get(position).isSelected();
 
         //  reponse selected
         if (isSelected) {
